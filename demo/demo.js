@@ -43,7 +43,8 @@ class App extends LitElement {
   render() {
     return html`
       <context-provider .value=${this.globals}>
-        <select @change=${this._onSelectChange}>
+        <label for="lang">Lang</label>
+        <select id="lang" @change=${this._onSelectChange}>
           ${this.langs.map((lang) => html` <option .value=${lang}>${lang}</option> `)}
         </select>
 
