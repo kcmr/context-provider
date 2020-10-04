@@ -1,9 +1,9 @@
 import { createContextProvider, contextConsumerMixin } from './_dist_/index.js';
 import { LitElement, html } from 'lit-element';
 
-const ContextProvider = createContextProvider({
-  value1: 'foo',
-  value2: 'bar',
+const ContextProvider = createContextProvider();
+const ContextProvider2 = createContextProvider({
+  lang: 'bla',
 });
 
 class MyComponent extends contextConsumerMixin(LitElement) {
@@ -50,6 +50,13 @@ class App extends LitElement {
         <fieldset>
           <legend>Within context-provider</legend>
           <my-component></my-component>
+
+          <fieldset>
+            <legend>Within another context-provider</legend>
+            <context-provider2>
+              <my-component></my-component>
+            </context-provider2>
+          </fieldset>
         </fieldset>
       </context-provider>
 
@@ -62,5 +69,6 @@ class App extends LitElement {
 }
 
 customElements.define('context-provider', ContextProvider);
+customElements.define('context-provider2', ContextProvider2);
 customElements.define('my-component', MyComponent);
 customElements.define('demo-app', App);
