@@ -1,5 +1,6 @@
 import { createContextProvider, contextConsumerMixin } from './_dist_/index.js';
-import { LitElement, html } from 'lit-element';
+import { LitElement, html, css } from 'lit-element';
+import { classMap } from 'lit-html/directives/class-map';
 
 const ContextProvider = createContextProvider();
 const ContextProvider2 = createContextProvider({
@@ -7,16 +8,50 @@ const ContextProvider2 = createContextProvider({
 });
 
 class MyComponent extends contextConsumerMixin(LitElement) {
+  static get properties() {
+    return {
+      changed: { type: Boolean },
+    };
+  }
+
   onContextChanged() {
-    this.requestUpdate();
+    this.changed = true;
+    setTimeout(() => (this.changed = false), 400);
   }
 
   render() {
+    const spanClass = classMap({
+      lang: true,
+      highlight: this.changed,
+    });
+
     return html`<p>
-      The current lang is: ${(this.lang || this.context.lang).toUpperCase()}
+      The current lang is:
+      <span class="${spanClass}">${(this.lang || this.context.lang).toUpperCase()}</span>
     </p>`;
   }
 }
+
+MyComponent.styles = css`
+  :host {
+    font-weight: 200;
+    font-size: medium;
+  }
+
+  p {
+    margin: 0.5rem 0;
+  }
+
+  .lang {
+    padding: 1px 2px;
+    border-radius: 2px;
+    transition: background-color 0.2s ease-in-out;
+  }
+
+  .highlight {
+    background-color: #ffeca2;
+  }
+`;
 
 class App extends LitElement {
   static get properties() {
@@ -43,10 +78,12 @@ class App extends LitElement {
   render() {
     return html`
       <context-provider .value=${this.globals}>
-        <label for="lang">Lang</label>
-        <select id="lang" @change=${this._onSelectChange}>
-          ${this.langs.map((lang) => html` <option .value=${lang}>${lang}</option> `)}
-        </select>
+        <div class="lang-selector">
+          <label for="lang">Lang</label>
+          <select id="lang" @change=${this._onSelectChange}>
+            ${this.langs.map((lang) => html` <option .value=${lang}>${lang}</option> `)}
+          </select>
+        </div>
 
         <fieldset>
           <legend>Within context-provider</legend>
@@ -68,6 +105,34 @@ class App extends LitElement {
     `;
   }
 }
+
+App.styles = css`
+  :host {
+    display: block;
+    font-size: 95%;
+    font-weight: 600;
+    font-size: small;
+    --border-color: #98d1de;
+  }
+
+  :host * + * {
+    margin-top: 1.5rem;
+  }
+
+  select {
+    font: inherit;
+    width: 100px;
+    height: 30px;
+    border-radius: 4px;
+    border-color: var(--border-color);
+  }
+
+  fieldset {
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 10px;
+  }
+`;
 
 customElements.define('context-provider', ContextProvider);
 customElements.define('context-provider2', ContextProvider2);
