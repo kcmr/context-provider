@@ -1,1 +1,1 @@
-export { Consumer, createContextProvider } from './consumer.js';
+export { contextConsumerMixin, createContextProvider } from './consumer.js';

@@ -1,4 +1,4 @@
-import { createContextProvider, Consumer } from './_dist_/index.js';
+import { createContextProvider, contextConsumerMixin } from './_dist_/index.js';
 import { LitElement, html } from 'lit-element';
 
 const ContextProvider = createContextProvider({
@@ -6,60 +6,61 @@ const ContextProvider = createContextProvider({
   value2: 'bar',
 });
 
-const root = Symbol();
-function render(context) {
-  context[root] = context[root] || context.attachShadow({ mode: 'open' });
-  context[root].innerHTML = context.render(context);
-}
-
-class ContextConsumer extends Consumer {
-  connectedCallback() {
-    super.connectedCallback();
-    render(this);
-  }
-
+class MyComponent extends contextConsumerMixin(LitElement) {
   onContextChanged() {
-    render(this);
+    this.requestUpdate();
   }
 
-  render({ context }) {
-    return `<p>My context is <pre>${JSON.stringify(context, null, 2)}</pre></p> `;
+  render() {
+    return html`<p>
+      The current lang is: ${(this.lang || this.context.lang).toUpperCase()}
+    </p>`;
   }
 }
 
 class App extends LitElement {
   static get properties() {
     return {
-      _value: { type: Object },
+      globals: { type: Object },
     };
   }
 
   constructor() {
     super();
-    this._value = {
-      uno: 'foo',
-      dos: 'bar',
+
+    this.langs = ['es', 'en', 'it'];
+    this.globals = {
+      lang: 'es',
     };
   }
 
-  _onButtonClick() {
-    this._value = {
-      ...this._value,
-      dos: 'bla',
-      tres: 'catorce',
+  _onSelectChange({ target: select }) {
+    this.globals = {
+      lang: select.value,
     };
   }
 
   render() {
     return html`
-      <context-provider .value=${this._value}>
-        <button @click=${this._onButtonClick}>Change context</button>
-        <context-consumer></context-consumer>
+      <context-provider .value=${this.globals}>
+        <select @change=${this._onSelectChange}>
+          ${this.langs.map((lang) => html` <option .value=${lang}>${lang}</option> `)}
+        </select>
+
+        <fieldset>
+          <legend>Within context-provider</legend>
+          <my-component></my-component>
+        </fieldset>
       </context-provider>
+
+      <fieldset>
+        <legend>Without context</legend>
+        <my-component lang="fu"></my-component>
+      </fieldset>
     `;
   }
 }
 
 customElements.define('context-provider', ContextProvider);
-customElements.define('context-consumer', ContextConsumer);
+customElements.define('my-component', MyComponent);
 customElements.define('demo-app', App);
