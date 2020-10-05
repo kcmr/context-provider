@@ -3,5 +3,8 @@
     "demo": "/",
     "src": "/_dist_"
   },
+  "devOptions": {
+    "out": "public"
+  },
   "plugins": []
 }
