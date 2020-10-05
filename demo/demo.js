@@ -100,7 +100,9 @@ class App extends LitElement {
           <my-component></my-component>
 
           <fieldset>
-            <legend>Consumer inside another component (not direct child)</legend>
+            <legend>
+              Consumer inside another component (not a direct child of context-provider)
+            </legend>
             <wrapper-component></wrapper-component>
           </fieldset>
 
