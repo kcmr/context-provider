@@ -112,7 +112,7 @@ class MyComponent extends contextConsumerMixin(HTMLElement) {
 - `yarn`: install dependencies (required for linting).
 - `yarn start`: run the development server.
 - `yarn test:watch`: run the test in watch mode.
-- `yarn t`: run test with coverage output.
+- `yarn test`: run test with coverage output.
 
 This repository uses [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) to automatically generate the releases and Changelog.
 
