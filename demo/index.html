@@ -11,16 +11,46 @@
     <style>
       body {
         font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        margin: 0;
       }
 
-      demo-app {
+      .wrapper {
         max-width: 960px;
         margin: 1rem auto;
+        padding: 0 1rem;
+      }
+
+      .header {
+        display: flex;
+        align-items: center;
+      }
+
+      h1 {
+        margin: 0.5rem 0;
+        font-weight: 100;
+      }
+
+      .github-button {
+        margin-left: 1rem;
+        margin-bottom: -8px;
       }
     </style>
     <script type="module" src="./demo.js"></script>
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
   </head>
   <body>
-    <demo-app></demo-app>
+    <div class="header wrapper">
+      <h1>Context Consumer &amp; Provider for Web Components</h1>
+      <div class="github-button">
+        <a
+          class="github-button"
+          href="https://github.com/kcmr/context-provider"
+          data-size="large"
+          >View on Github</a
+        >
+      </div>
+    </div>
+
+    <demo-app class="wrapper"></demo-app>
   </body>
 </html>
