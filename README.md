@@ -28,7 +28,7 @@ npm i @kuscamara/context-provider
 import { createContextProvider } from '@kuscamara/context-provider';
 
 const globals = /* App globals */;
-const ContextProvider = createProvider(globals);
+const ContextProvider = createContextProvider(globals);
 
 window.customElements.define('context-provider', ContextProvider);
 ```
