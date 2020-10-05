@@ -1,6 +1,6 @@
 {
   "mount": {
-    "public": "/",
+    "demo": "/",
     "src": "/_dist_"
   },
   "plugins": []

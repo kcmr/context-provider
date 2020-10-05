@@ -1,0 +1,21 @@
+language: node_js
+node_js: stable
+dist: trusty
+
+cache: yarn
+
+before_install:
+  - npm install -g codecov
+
+install:
+  - yarn
+
+script:
+  - npm t
+  - codecov
+
+deploy:
+  - provider: script
+    cleanup: true
+    script:
+      - npx -p @semantic-release/changelog -p @semantic-release/git -p semantic-release semantic-release
