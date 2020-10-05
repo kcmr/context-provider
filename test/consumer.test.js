@@ -32,6 +32,32 @@ suite('contextConsumerMixin', () => {
     assert.strictEqual(el.context, expected);
   });
 
+  test('the "context" property has the value of the nearest Provider Element inside another component', async () => {
+    const expected = 'any';
+
+    class Consumer extends contextConsumerMixin(HTMLElement) {}
+    class Wrapper extends LitElement {
+      render() {
+        return html` <test-consumer-nested></test-consumer-nested> `;
+      }
+    }
+    customElements.define('test-consumer-nested', Consumer);
+    customElements.define('test-wrapper-consumer', Wrapper);
+    customElements.define('test-provider-nested', createContextProvider(expected));
+
+    const composite = await fixture(html`
+      <test-provider-nested>
+        <test-wrapper-consumer></test-wrapper-consumer>
+      </test-provider-nested>
+    `);
+
+    const el = composite
+      .querySelector('test-wrapper-consumer')
+      .shadowRoot.querySelector('test-consumer-nested');
+
+    assert.strictEqual(el.context, expected);
+  });
+
   test('calls "onContextChanged" when the Provider value changes', async () => {
     class Consumer extends contextConsumerMixin(LitElement) {
       onContextChanged() {
