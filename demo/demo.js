@@ -53,6 +53,12 @@ MyComponent.styles = css`
   }
 `;
 
+class Wrapper extends LitElement {
+  render() {
+    return html` <my-component></my-component> `;
+  }
+}
+
 class App extends LitElement {
   static get properties() {
     return {
@@ -88,6 +94,11 @@ class App extends LitElement {
         <fieldset>
           <legend>Within context-provider</legend>
           <my-component></my-component>
+
+          <fieldset>
+            <legend>Consumer inside another component (not direct child)</legend>
+            <wrapper-component></wrapper-component>
+          </fieldset>
 
           <fieldset>
             <legend>Within another context-provider</legend>
@@ -137,4 +148,5 @@ App.styles = css`
 customElements.define('context-provider', ContextProvider);
 customElements.define('context-provider2', ContextProvider2);
 customElements.define('my-component', MyComponent);
+customElements.define('wrapper-component', Wrapper);
 customElements.define('demo-app', App);
