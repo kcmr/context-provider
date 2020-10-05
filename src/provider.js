@@ -1,6 +1,13 @@
 const store = new WeakMap();
 const providerId = Symbol('provider');
 
+/**
+ * Creates a Provider component that notifies changes on its
+ * `value` property.
+ *
+ * @param {*} initialValue Initial value of the Provider
+ * @param {*} identifier Provider ID
+ */
 const createProvider = (initialValue, identifier) => {
   return class Provider extends HTMLElement {
     constructor() {
@@ -20,6 +27,12 @@ const createProvider = (initialValue, identifier) => {
   };
 };
 
+/**
+ * Gets the Provider component that matches the identifier.
+ *
+ * @param {*} identifier Provider identifier.
+ * @param {HTMLElement} context
+ */
 const getProvider = (identifier, context) => {
   if (!context || context === window) {
     return undefined;
@@ -36,6 +49,12 @@ const getProvider = (identifier, context) => {
   return getProvider(identifier, context.parentElement || context.parentNode);
 };
 
+/**
+ * Gets the value of the Provider that matches the identifier.
+ *
+ * @param {*} identifier Provider identifier.
+ * @param {HTMLElement} context
+ */
 const getValue = (identifier, context) => {
   const nearestProvider = getProvider(identifier, context);
   return nearestProvider && nearestProvider.value;

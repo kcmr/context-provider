@@ -4,8 +4,19 @@ import { createProvider, getProvider, getValue } from './provider.js';
 const provider = Symbol('provider');
 const contextId = Symbol('context');
 
+/**
+ * Creates a Provider class.
+ * @param {*} initialValue Initial value of the context
+ */
 const createContextProvider = (initialValue) => createProvider(initialValue, contextId);
 
+/**
+ * Provides a `context` property with the value of the nearest Provider component.
+ * Changes in the `value` property of the Provider can be handled by implementing
+ * the `onContextChanged()` hook.
+ *
+ * @mixin
+ */
 const contextConsumerMixin = dedupeMixin((SuperClass) => {
   return class Consumer extends SuperClass {
     constructor() {
@@ -39,6 +50,9 @@ const contextConsumerMixin = dedupeMixin((SuperClass) => {
       }
     }
 
+    /**
+     * Callback executed when the nearest Provider changes its `value` property.
+     */
     // eslint-disable-next-line class-methods-use-this
     onContextChanged() {}
   };
