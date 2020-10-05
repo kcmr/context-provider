@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 import { assert, defineCE, fixture, html } from '@open-wc/testing';
 import { LitElement } from 'lit-element';
 import sinon from 'sinon';
@@ -64,6 +65,7 @@ suite('contextConsumerMixin', () => {
         super.onContextChanged();
         this.spied();
       }
+
       spied() {}
     }
 

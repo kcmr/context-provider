@@ -1,6 +1,8 @@
-import { createContextProvider, contextConsumerMixin } from './_dist_/index.js';
+/* eslint-disable max-classes-per-file */
 import { LitElement, html, css } from 'lit-element';
 import { classMap } from 'lit-html/directives/class-map';
+// eslint-disable-next-line import/no-unresolved
+import { createContextProvider, contextConsumerMixin } from './_dist_/index.js';
 
 const ContextProvider = createContextProvider();
 const ContextProvider2 = createContextProvider({
@@ -16,7 +18,9 @@ class MyComponent extends contextConsumerMixin(LitElement) {
 
   onContextChanged() {
     this.changed = true;
-    setTimeout(() => (this.changed = false), 400);
+    setTimeout(() => {
+      this.changed = false;
+    }, 400);
   }
 
   render() {

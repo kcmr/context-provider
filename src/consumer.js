@@ -1,8 +1,8 @@
 import { dedupeMixin } from '@open-wc/dedupe-mixin';
 import { createProvider, getProvider, getValue } from './provider.js';
 
-const provider = Symbol();
-const contextId = Symbol();
+const provider = Symbol('provider');
+const contextId = Symbol('context');
 
 const createContextProvider = (initialValue) => createProvider(initialValue, contextId);
 
@@ -18,7 +18,9 @@ const contextConsumerMixin = dedupeMixin((SuperClass) => {
     }
 
     connectedCallback() {
-      super.connectedCallback && super.connectedCallback();
+      if (super.connectedCallback) {
+        super.connectedCallback();
+      }
 
       this[provider] = getProvider(contextId, this);
 
@@ -32,9 +34,12 @@ const contextConsumerMixin = dedupeMixin((SuperClass) => {
         this[provider].removeEventListener('context-changed', this.onContextChanged);
       }
 
-      super.disconnectedCallback && super.disconnectedCallback();
+      if (super.disconnectedCallback) {
+        super.disconnectedCallback();
+      }
     }
 
+    // eslint-disable-next-line class-methods-use-this
     onContextChanged() {}
   };
 });

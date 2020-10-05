@@ -1,5 +1,5 @@
 const store = new WeakMap();
-const providerId = Symbol();
+const providerId = Symbol('provider');
 
 const createProvider = (initialValue, identifier) => {
   return class Provider extends HTMLElement {
@@ -22,7 +22,7 @@ const createProvider = (initialValue, identifier) => {
 
 const getProvider = (identifier, context) => {
   if (!context || context === window) {
-    return;
+    return undefined;
   }
 
   if (context[providerId] === identifier) {
