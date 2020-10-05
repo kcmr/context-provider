@@ -94,7 +94,10 @@
       "@semantic-release/changelog",
       "@semantic-release/git"
     ],
-    "branch": "main",
+    "defaultBranch": "main",
+    "branches": [
+      "main"
+    ],
     "tagFormat": "${version}"
   },
   "publishConfig": {
