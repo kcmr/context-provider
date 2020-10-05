@@ -17,6 +17,10 @@
     "email": "kus.camara@gmail.com",
     "name": "Kus Cámara"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/context-provider"
+  },
   "license": "MIT",
   "scripts": {
     "start": "snowpack dev",
