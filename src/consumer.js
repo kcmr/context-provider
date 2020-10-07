@@ -1,5 +1,5 @@
 import { dedupeMixin } from '@open-wc/dedupe-mixin';
-import { createProvider, getProvider, getValue } from './provider.js';
+import { createProvider, getProvider } from './provider.js';
 
 const provider = Symbol('provider');
 const contextId = Symbol('context');
@@ -25,7 +25,11 @@ const contextConsumerMixin = dedupeMixin((SuperClass) => {
     }
 
     get context() {
-      return getValue(contextId, this);
+      if (this[provider]) {
+        return this[provider].value;
+      }
+
+      return undefined;
     }
 
     connectedCallback() {

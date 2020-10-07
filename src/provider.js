@@ -49,15 +49,4 @@ const getProvider = (identifier, context) => {
   return getProvider(identifier, context.parentElement || context.parentNode);
 };
 
-/**
- * Gets the value of the Provider that matches the identifier.
- *
- * @param {*} identifier Provider identifier.
- * @param {HTMLElement} context
- */
-const getValue = (identifier, context) => {
-  const nearestProvider = getProvider(identifier, context);
-  return nearestProvider && nearestProvider.value;
-};
-
-export { createProvider, getProvider, getValue };
+export { createProvider, getProvider };
